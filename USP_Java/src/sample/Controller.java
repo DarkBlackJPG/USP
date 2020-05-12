@@ -4,38 +4,25 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
-
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.util.Duration;
-import jdk.internal.util.xml.impl.Input;
-import org.omg.PortableInterceptor.USER_EXCEPTION;
-import sun.net.www.http.HttpClient;
-import sun.nio.cs.StandardCharsets;
-import sun.plugin.javascript.navig.Anchor;
 
-import java.awt.*;
 import java.io.*;
-import java.net.*;
-import java.nio.charset.Charset;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.file.Paths;
-import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.Date;
+
 
 public class Controller {
 
@@ -72,6 +59,9 @@ public class Controller {
     public Slider sprinkler_slider;
     public LineChart sprinkler_hidration;
     public Pane sprinklers_pane;
+    public CheckBox automatic_irrigation_check;
+    public Label config_type;
+    public Label irrigation_status;
 
     @FXML
     private TextField email_field;
@@ -106,32 +96,32 @@ public class Controller {
                         int direction = (int)(Math.random() * 8);
                         switch (direction) {
                             case 0:
-                                selectedRadio.setTranslateY(5);
+                                selectedRadio.setTranslateY(10);
                                 break;
                             case 1:
-                                selectedRadio.setTranslateY(-5);
+                                selectedRadio.setTranslateY(-10);
                                 break;
                             case 2:
-                                selectedRadio.setTranslateX(5);
+                                selectedRadio.setTranslateX(10);
                                 break;
                             case 3:
-                                selectedRadio.setTranslateX(-5);
+                                selectedRadio.setTranslateX(-10);
                                 break;
                             case 4:
-                                selectedRadio.setTranslateX(5);
-                                selectedRadio.setTranslateY(5);
+                                selectedRadio.setTranslateX(10);
+                                selectedRadio.setTranslateY(10);
                                 break;
                             case 5:
-                                selectedRadio.setTranslateX(-5);
-                                selectedRadio.setTranslateY(5);
+                                selectedRadio.setTranslateX(-10);
+                                selectedRadio.setTranslateY(10);
                                 break;
                             case 6:
-                                selectedRadio.setTranslateX(5);
-                                selectedRadio.setTranslateY(-5);
+                                selectedRadio.setTranslateX(10);
+                                selectedRadio.setTranslateY(-10);
                                 break;
                             case 7:
-                                selectedRadio.setTranslateX(-5);
-                                selectedRadio.setTranslateY(-5);
+                                selectedRadio.setTranslateX(-10);
+                                selectedRadio.setTranslateY(-10);
                                 break;
 
                         }
@@ -225,14 +215,17 @@ public class Controller {
         menu_pane.setVisible(true);
         drone_pane.setVisible(false);
         login_pane.setVisible(false);
+        sprinklers_pane.setVisible(false);
     }
-
+    MediaPlayer player;
+    Media video;
     public void load_drones(ActionEvent actionEvent) {
-        Media video = new Media(Paths.get("src/sample/areal_video.mp4").toUri().toString());
-        MediaPlayer player = new MediaPlayer(video);
+        video = new Media(Paths.get("src/sample/areal_video.mp4").toUri().toString());
+        player = new MediaPlayer(video);
         player.play();
         player.setMute(true);
         player.setStartTime(new Duration(10000));
+        drone_video.setVisible(false);
         drone_video.setMediaPlayer(player);
         home_pane.setVisible(false);
         menu_pane.setVisible(true);
@@ -254,17 +247,36 @@ public class Controller {
         Drone1.setVisible(false);
         Drone2.setVisible(false);
         Drone3.setVisible(false);
+        drone_video.setVisible(true);
         int selectedIndex = drone_selection.getSelectionModel().getSelectedIndex();
         switch (selectedIndex) {
             case 0:
+                player = new MediaPlayer(video);
+                player.play();
+                player.setMute(true);
+                player.setStartTime(new Duration(10000));
+                drone_video.setVisible(true);
+                drone_video.setMediaPlayer(player);
                 Drone1.setVisible(true);
                 selectedRadio = Drone1;
                 break;
             case 1:
+                player = new MediaPlayer(video);
+                player.play();
+                player.setMute(true);
+                player.setStartTime(new Duration(20000));
+                drone_video.setVisible(true);
+                drone_video.setMediaPlayer(player);
                 Drone2.setVisible(true);
                 selectedRadio = Drone2;
                 break;
             case 2:
+                player = new MediaPlayer(video);
+                player.play();
+                player.setMute(true);
+                player.setStartTime(new Duration(30000));
+                drone_video.setVisible(true);
+                drone_video.setMediaPlayer(player);
                 Drone3.setVisible(true);
                 selectedRadio = Drone3;
                 break;
@@ -273,19 +285,44 @@ public class Controller {
     XYChart.Series sprinklerSeries;
     Thread sprinkler;
     ArrayList<XYChart.Data> sprinklerData = new ArrayList<>();
+    double lastSprinkler = -1;
+    String current_config = "";
+    double current_level = -1;
     public void change_sprinkler(ActionEvent actionEvent) {
+        final String [] configurations = new String[]{
+                "Carrots",
+                "Potatoes",
+                "Potatoes"
+        };
+        final double [] conviguration_levels = new double[] {
+                25,
+                50,
+                50
+        };
+
+        if(Sprinkler1.isSelected()) {
+            current_config = configurations[0];
+            current_level = conviguration_levels[0];
+        } else if (Sprinkler2.isSelected()) {
+            current_config = configurations[1];
+            current_level = conviguration_levels[1];
+        } else {
+            current_config = configurations[2];
+            current_level = conviguration_levels[2];
+        }
         sprinklerData.clear();
         sprinkler_hidration.getData().clear();
 
-        int sprinkler_strength = (int)(Math.random() * 101);
+        int sprinkler_strength = 0;
         sprinkler_slider.setValue(sprinkler_strength);
-
+        irrigation_status.setText("Unknown");
         sprinklerSeries = new XYChart.Series();
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date;
         for (int i = 0; i < 5; i++) {
             date = new Date() ;
-            XYChart.Data dat = new XYChart.Data(formatter.format(date),  Math.min(100, (int) (Math.random() * 101) + (int) (sprinkler_strength * 0.9)));
+            lastSprinkler =  Math.min(100, (int) (Math.random() * 101) + (int) (sprinkler_strength * 0.9));
+            XYChart.Data dat = new XYChart.Data(formatter.format(date),  Math.min(100, lastSprinkler));
             sprinklerSeries.getData().add(dat);
             sprinklerData.add(dat);
         }
@@ -293,9 +330,21 @@ public class Controller {
         sprinkler = new Thread(() -> {
             while (true) {
                 try {
+                    if(automatic_irrigation_check.isSelected()){
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                config_type.setText(current_config);
+                                XYChart.Data d = (XYChart.Data) sprinklerSeries.getData().get(sprinklerSeries.getData().size() - 1);
+                                int dd = (int) d.getYValue();
+                                lastSprinkler = dd;
+                                sprinkler_slider.setValue(Math.min(100, Math.abs(dd - current_level)));
+                            }
+                        });
+
+                    };
                     Thread.sleep(5000);
-
-
                     SimpleDateFormat formatter1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                     Date date1 = new Date();
                     XYChart.Data dat = new XYChart.Data(formatter1.format(date1),  Math.min(100,((int) (Math.random() * 50) + (int) (sprinkler_slider.getValue() * 0.9) )* (sprinkler_slider.getValue() == 0 ? 0 : 1)));
@@ -305,10 +354,22 @@ public class Controller {
                         public void run() {
                             sprinklerSeries.getData().remove(0);
                             sprinklerSeries.getData().add(dat);
+                            String status = "";
+                            if(lastSprinkler <= current_level * 0.25) {
+                                status = "Really bad!";
+                            } else if( lastSprinkler > current_level * 0.25 && lastSprinkler <= current_level * 0.5) {
+                                status = "Bad";
+                            } else if(lastSprinkler > current_level * 0.5 && lastSprinkler <= current_level * 0.75 ) {
+                                status ="OK";
+                            } else if (lastSprinkler > current_level * 0.75 && lastSprinkler <= current_level){
+                                status ="Excelent";
+                            } else {
+                                status = "Bad";
+                            }
+
+                            irrigation_status.setText(status);
                         }
                     });
-
-
 
                 } catch (InterruptedException e) {
                     e.printStackTrace();
