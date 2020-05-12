@@ -1,10 +1,25 @@
 package sample;
 
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.Node;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.StackedBarChart;
+import javafx.scene.chart.XYChart;
+import javafx.scene.control.*;
 
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
+import javafx.util.Duration;
 import jdk.internal.util.xml.impl.Input;
 import org.omg.PortableInterceptor.USER_EXCEPTION;
 import sun.net.www.http.HttpClient;
@@ -12,13 +27,51 @@ import sun.nio.cs.StandardCharsets;
 import sun.plugin.javascript.navig.Anchor;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.io.*;
 import java.net.*;
 import java.nio.charset.Charset;
+import java.nio.file.Paths;
+import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Date;
 
 public class Controller {
+
+    public LineChart water_level_chart;
+    public BarChart concentration_chart;
+    public RadioButton radio_region_3;
+    public ToggleGroup map_area_group;
+    public RadioButton radio_region_2;
+    public RadioButton radio_region_1;
+    public RadioButton radio_region_6;
+    public RadioButton radio_region_4;
+    public RadioButton radio_region_5;
+    public RadioButton radio_region_7;
+    public RadioButton radio_region_8;
+    public Button send_credentials;
+    public Pane login_pane;
+    public Pane home_pane;
+    public Pane menu_pane;
+    public Pane drone_pane;
+    public MediaView drone_video;
+    public ComboBox drone_selection;
+    public Label field_status;
+    public Label pests;
+    public Label weeds;
+    public Label frostbite;
+    public RadioButton Drone1;
+    public RadioButton Drone2;
+    public RadioButton Drone3;
+    public Pane drone_fly_zone;
+    public RadioButton Sprinkler1;
+    public RadioButton Sprinkler2;
+    public ToggleGroup Sprinklers;
+    public RadioButton Sprinkler3;
+    public Slider sprinkler_slider;
+    public LineChart sprinkler_hidration;
+    public Pane sprinklers_pane;
 
     @FXML
     private TextField email_field;
@@ -27,9 +80,80 @@ public class Controller {
     @FXML
     private Label error_login;
 
+
+    RadioButton selectedRadio = null;
+    Thread runner;
     @FXML
     public void initialize() {
+        String [] drones = {"Drone1", "Drone2", "Drone3"};
+        drone_selection.setItems(FXCollections.observableArrayList(drones));
+        home_pane.setVisible(false);
+        menu_pane.setVisible(false);
+        drone_pane.setVisible(false);
+        login_pane.setVisible(true);
+        sprinklers_pane.setVisible(false);
+        runner = new Thread(){
+            @Override
+            public void run() {
+                // TODO OVO GOVNO MOZE DA IZLETI IZVAN PANE-A
+                while(true) {
+                    try {
+                        sleep(1000);
+                        if(selectedRadio == null)
+                            continue;
 
+
+                        int direction = (int)(Math.random() * 8);
+                        switch (direction) {
+                            case 0:
+                                selectedRadio.setTranslateY(5);
+                                break;
+                            case 1:
+                                selectedRadio.setTranslateY(-5);
+                                break;
+                            case 2:
+                                selectedRadio.setTranslateX(5);
+                                break;
+                            case 3:
+                                selectedRadio.setTranslateX(-5);
+                                break;
+                            case 4:
+                                selectedRadio.setTranslateX(5);
+                                selectedRadio.setTranslateY(5);
+                                break;
+                            case 5:
+                                selectedRadio.setTranslateX(-5);
+                                selectedRadio.setTranslateY(5);
+                                break;
+                            case 6:
+                                selectedRadio.setTranslateX(5);
+                                selectedRadio.setTranslateY(-5);
+                                break;
+                            case 7:
+                                selectedRadio.setTranslateX(-5);
+                                selectedRadio.setTranslateY(-5);
+                                break;
+
+                        }
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                field_status.setText((int)(Math.random()*10) % 2 == 0 ? "OK" : "There is something wrong!");
+                                weeds.setText((int)(Math.random()*10) % 2 == 0 ? "No weeds detected" : "Weeds detected!");
+                                pests.setText((int)(Math.random()*10) % 2 == 0 ? "No pests detected" : "Pests detected!");
+                                frostbite.setText((int)(Math.random()*10) % 2 == 0 ? "No frostbite" : "Frostbite detected!");
+                            }
+                        });
+
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        };
+        runner.setDaemon(true);
+        runner.start();
     }
     public void SendCredentials(javafx.event.ActionEvent actionEvent) {
         try {
@@ -58,6 +182,11 @@ public class Controller {
             if(line.contains("true")) {
                 error_login.setVisible(false);
                 error_login.setText("Incorrect credentials");
+                home_pane.setVisible(true);
+                menu_pane.setVisible(true);
+                drone_pane.setVisible(false);
+                login_pane.setVisible(false);
+                sprinklers_pane.setVisible(false);
 
             } else {
                 error_login.setVisible(true);
@@ -70,5 +199,131 @@ public class Controller {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+    public void change_chart(ActionEvent actionEvent) {
+        water_level_chart.getData().clear();
+        concentration_chart.getData().clear();
+        XYChart.Series series = new XYChart.Series();
+        XYChart.Series concentrationSerie = new XYChart.Series();
+        concentrationSerie.getData().add(new XYChart.Data("Amonia", (int) (Math.random() * 101)));
+        concentrationSerie.getData().add(new XYChart.Data("Salt", (int) (Math.random() * 101)));
+        concentrationSerie.getData().add(new XYChart.Data("Nitric Acid", (int) (Math.random() * 101)));
+        concentrationSerie.getData().add(new XYChart.Data("Chlorine", (int) (Math.random() * 101)));
+        for (int i = 0; i < 5; i++) {
+            series.getData().add(new XYChart.Data("Day: "+(i+1), (int) (Math.random() * 50 + 1)));
+        }
+
+        water_level_chart.getData().add(series);
+        concentration_chart.getData().add(concentrationSerie);
+
+    }
+
+    public void load_home(ActionEvent actionEvent) {
+        home_pane.setVisible(true);
+        menu_pane.setVisible(true);
+        drone_pane.setVisible(false);
+        login_pane.setVisible(false);
+    }
+
+    public void load_drones(ActionEvent actionEvent) {
+        Media video = new Media(Paths.get("src/sample/areal_video.mp4").toUri().toString());
+        MediaPlayer player = new MediaPlayer(video);
+        player.play();
+        player.setMute(true);
+        player.setStartTime(new Duration(10000));
+        drone_video.setMediaPlayer(player);
+        home_pane.setVisible(false);
+        menu_pane.setVisible(true);
+        drone_pane.setVisible(true);
+        login_pane.setVisible(false);
+        sprinklers_pane.setVisible(false);
+
+    }
+
+    public void load_sprinklers(ActionEvent actionEvent) {
+        home_pane.setVisible(false);
+        menu_pane.setVisible(true);
+        drone_pane.setVisible(false);
+        login_pane.setVisible(false);
+        sprinklers_pane.setVisible(true);
+    }
+
+    public void change_drone(ActionEvent actionEvent) {
+        Drone1.setVisible(false);
+        Drone2.setVisible(false);
+        Drone3.setVisible(false);
+        int selectedIndex = drone_selection.getSelectionModel().getSelectedIndex();
+        switch (selectedIndex) {
+            case 0:
+                Drone1.setVisible(true);
+                selectedRadio = Drone1;
+                break;
+            case 1:
+                Drone2.setVisible(true);
+                selectedRadio = Drone2;
+                break;
+            case 2:
+                Drone3.setVisible(true);
+                selectedRadio = Drone3;
+                break;
+        }
+    }
+    XYChart.Series sprinklerSeries;
+    Thread sprinkler;
+    ArrayList<XYChart.Data> sprinklerData = new ArrayList<>();
+    public void change_sprinkler(ActionEvent actionEvent) {
+        sprinklerData.clear();
+        sprinkler_hidration.getData().clear();
+
+        int sprinkler_strength = (int)(Math.random() * 101);
+        sprinkler_slider.setValue(sprinkler_strength);
+
+        sprinklerSeries = new XYChart.Series();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date date;
+        for (int i = 0; i < 5; i++) {
+            date = new Date() ;
+            XYChart.Data dat = new XYChart.Data(formatter.format(date),  Math.min(100, (int) (Math.random() * 101) + (int) (sprinkler_strength * 0.9)));
+            sprinklerSeries.getData().add(dat);
+            sprinklerData.add(dat);
+        }
+        sprinkler_hidration.getData().add(sprinklerSeries);
+        sprinkler = new Thread(() -> {
+            while (true) {
+                try {
+                    Thread.sleep(5000);
+
+
+                    SimpleDateFormat formatter1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                    Date date1 = new Date();
+                    XYChart.Data dat = new XYChart.Data(formatter1.format(date1),  Math.min(100,((int) (Math.random() * 50) + (int) (sprinkler_slider.getValue() * 0.9) )* (sprinkler_slider.getValue() == 0 ? 0 : 1)));
+
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            sprinklerSeries.getData().remove(0);
+                            sprinklerSeries.getData().add(dat);
+                        }
+                    });
+
+
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        sprinkler.setDaemon(true);
+        sprinkler.start();
+    }
+
+    public void logout(ActionEvent actionEvent) {
+        home_pane.setVisible(false);
+        menu_pane.setVisible(false);
+        drone_pane.setVisible(false);
+        login_pane.setVisible(true);
+        sprinklers_pane.setVisible(false);
     }
 }
