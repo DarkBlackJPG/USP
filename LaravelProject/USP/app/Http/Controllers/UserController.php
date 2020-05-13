@@ -24,7 +24,7 @@ class UserController extends Controller
         $product->in_stock--;
         $product->timestamps = false;
         $product->save();
-        auth()->user()->products()->attach($product);
+        $product->users()->attach(auth()->user()->id);
 
         Mail::to($email)->send(new ConfirmPurchase($product, auth()->user()));
 

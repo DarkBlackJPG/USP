@@ -10,6 +10,6 @@ class Products extends Model
         'name', 'price', 'in_stock','description', 'image',
     ];
     public function users() {
-        return $this->belongsToMany('App\User', 'users_products', 'user_id', 'product_id');
+        return $this->belongsToMany('App\User', 'users_products', 'product_id', 'user_id')->withPivot(['id', 'user_id']);
     }
 }

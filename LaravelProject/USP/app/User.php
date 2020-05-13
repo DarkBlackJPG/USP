@@ -6,7 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
 
@@ -39,6 +39,6 @@ class User extends Authenticatable
 
 
     public function products() {
-        return $this->belongsToMany('App\Products', 'users_products', 'product_id', 'user_id');
+        return $this->belongsToMany('App\Products', 'users_products', 'user_id', 'product_id');
     }
 }
