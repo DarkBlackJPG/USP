@@ -10882,3 +10882,6 @@ a.text-dark:focus {
   }
 }
 
+.shop-title {
+    border-bottom: 1px black solid;
+}

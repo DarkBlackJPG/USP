@@ -41,4 +41,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function products() {
         return $this->belongsToMany('App\Products', 'users_products', 'user_id', 'product_id');
     }
+    public function cart() {
+        return $this->belongsToMany('App\Products', 'users_products_cart', 'user_id', 'product_id');
+    }
 }

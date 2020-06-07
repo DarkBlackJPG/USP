@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.chart.*?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
@@ -13,221 +16,169 @@
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.media.*?>
 <?import javafx.scene.media.MediaView?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="651.0" prefWidth="1092.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<VBox prefHeight="651.0" prefWidth="1092.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="sample.Controller">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefWidth="711.0" VBox.vgrow="ALWAYS">
       <children>
-            <Pane fx:id="menu_pane" layoutY="-1.0" prefHeight="651.0" prefWidth="228.0" style="-fx-border-color: lightgray;">
-               <children>
-                  <Button contentDisplay="CENTER" layoutY="156.0" mnemonicParsing="false" onAction="#load_drones" prefHeight="46.0" prefWidth="228.0" style="-fx-background-color: inherit; -fx-border-color: lightgray;" text="Drones">
-                     <font>
-                        <Font name="Segoe UI" size="18.0" />
-                     </font>
-                  </Button>
-                  <Button contentDisplay="CENTER" layoutY="203.0" mnemonicParsing="false" onAction="#load_sprinklers" prefHeight="46.0" prefWidth="228.0" style="-fx-background-color: inherit; -fx-border-color: lightgray;" text="Sprinklers">
-                     <font>
-                        <Font name="Segoe UI" size="18.0" />
-                     </font>
-                  </Button>
-                  <Button contentDisplay="CENTER" layoutY="250.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="228.0" style="-fx-background-color: inherit; -fx-border-color: lightgray;" text="Soil Status">
-                     <font>
-                        <Font name="Segoe UI" size="18.0" />
-                     </font>
-                  </Button>
-                  <Button contentDisplay="CENTER" layoutY="297.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="228.0" style="-fx-background-color: inherit; -fx-border-color: lightgray;" text="Statistics">
-                     <font>
-                        <Font name="Segoe UI" size="18.0" />
-                     </font>
-                  </Button>
-                  <Label layoutX="18.0" layoutY="8.0" text="SHM-AUTO" textAlignment="CENTER">
-                     <font>
-                        <Font name="Segoe UI Bold Italic" size="36.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="17.0" layoutY="72.0" text="Administrator dashboard">
-                     <font>
-                        <Font name="Segoe UI" size="18.0" />
-                     </font>
-                  </Label>
-                  <Button contentDisplay="CENTER" layoutY="558.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="228.0" style="-fx-background-color: inherit; -fx-border-color: lightgray;" text="Report a problem">
-                     <font>
-                        <Font name="Segoe UI" size="18.0" />
-                     </font>
-                  </Button>
-                  <Button contentDisplay="CENTER" layoutY="606.0" mnemonicParsing="false" onAction="#logout" prefHeight="46.0" prefWidth="228.0" style="-fx-background-color: inherit; -fx-border-color: lightgray;" text="Logout">
-                     <font>
-                        <Font name="Segoe UI" size="18.0" />
-                     </font>
-                  </Button>
-                  <Button contentDisplay="CENTER" layoutY="109.0" mnemonicParsing="false" onAction="#load_home" prefHeight="46.0" prefWidth="228.0" style="-fx-background-color: inherit; -fx-border-color: lightgray;" text="Home">
-                     <font>
-                        <Font name="Segoe UI" size="18.0" />
-                     </font>
-                  </Button>
-                  <Button contentDisplay="CENTER" layoutX="-1.0" layoutY="344.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="228.0" style="-fx-background-color: inherit; -fx-border-color: lightgray;" text="Region setup">
-                     <font>
-                        <Font name="Segoe UI" size="18.0" />
-                     </font>
-                  </Button>
-                  <Button contentDisplay="CENTER" layoutY="510.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="228.0" style="-fx-background-color: inherit; -fx-border-color: lightgray;" text="User add">
-                     <font>
-                        <Font name="Segoe UI" size="18.0" />
-                     </font>
-                  </Button>
-               </children>
+        <Pane fx:id="menu_pane" layoutY="-1.0" prefHeight="651.0" prefWidth="228.0" style="-fx-border-color: lightgray;">
+          <children>
+            <Button contentDisplay="CENTER" layoutY="156.0" mnemonicParsing="false" onAction="#load_drones" prefHeight="46.0" prefWidth="228.0" style="-fx-background-color: inherit; -fx-border-color: lightgray;" text="Drones">
+              <font>
+                <Font name="Segoe UI" size="18.0" fx:id="x1" />
+              </font>
+            </Button>
+            <Button contentDisplay="CENTER" font="$x1" layoutY="203.0" mnemonicParsing="false" onAction="#load_sprinklers" prefHeight="46.0" prefWidth="228.0" style="-fx-background-color: inherit; -fx-border-color: lightgray;" text="Sprinklers" />
+            <Button contentDisplay="CENTER" font="$x1" layoutY="250.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="228.0" style="-fx-background-color: inherit; -fx-border-color: lightgray;" text="Soil Status" />
+            <Button contentDisplay="CENTER" font="$x1" layoutY="297.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="228.0" style="-fx-background-color: inherit; -fx-border-color: lightgray;" text="Statistics" />
+            <Label layoutX="18.0" layoutY="8.0" text="SHM-AUTO" textAlignment="CENTER">
+              <font>
+                <Font name="Segoe UI Bold Italic" size="36.0" />
+              </font>
+            </Label>
+            <Label font="$x1" layoutX="17.0" layoutY="72.0" text="Administrator dashboard" />
+            <Button contentDisplay="CENTER" font="$x1" layoutY="558.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="228.0" style="-fx-background-color: inherit; -fx-border-color: lightgray;" text="Report a problem" />
+            <Button contentDisplay="CENTER" font="$x1" layoutY="606.0" mnemonicParsing="false" onAction="#logout" prefHeight="46.0" prefWidth="228.0" style="-fx-background-color: inherit; -fx-border-color: lightgray;" text="Logout" />
+            <Button contentDisplay="CENTER" font="$x1" layoutY="109.0" mnemonicParsing="false" onAction="#load_home" prefHeight="46.0" prefWidth="228.0" style="-fx-background-color: inherit; -fx-border-color: lightgray;" text="Home" />
+            <Button contentDisplay="CENTER" font="$x1" layoutX="-1.0" layoutY="344.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="228.0" style="-fx-background-color: inherit; -fx-border-color: lightgray;" text="Region setup" />
+            <Button contentDisplay="CENTER" font="$x1" layoutY="510.0" mnemonicParsing="false" onAction="#AddUserMethod" prefHeight="46.0" prefWidth="228.0" style="-fx-background-color: inherit; -fx-border-color: lightgray;" text="User add" />
+          </children>
+        </Pane>
+        <Pane fx:id="login_pane" layoutX="485.0" layoutY="189.0" prefHeight="200.0" prefWidth="246.0" visible="false">
+          <children>
+            <TextField fx:id="email_field" layoutX="49.0" layoutY="56.0" promptText="Email" />
+            <Button fx:id="send_credentials" layoutX="49.0" layoutY="120.0" mnemonicParsing="false" onAction="#SendCredentials" prefHeight="25.0" prefWidth="149.0" text="Login" />
+            <PasswordField fx:id="password_field" layoutX="49.0" layoutY="87.0" promptText="Password" />
+            <Label fx:id="error_login" layoutX="49.0" layoutY="30.0" prefHeight="17.0" prefWidth="149.0" text="Label" textFill="#ff0202" visible="false" />
+          </children>
+        </Pane>
+        <Pane fx:id="home_pane" layoutX="228.0" layoutY="6.0" prefHeight="644.0" prefWidth="860.0" visible="false">
+          <children>
+            <ImageView fitHeight="361.0" fitWidth="839.0" layoutX="7.0" layoutY="7.0" pickOnBounds="true" smooth="false">
+              <image>
+                <Image url="@mapa.PNG" />
+              </image>
+            </ImageView>
+            <LineChart fx:id="water_level_chart" layoutY="389.0" prefHeight="253.0" prefWidth="422.0">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </LineChart>
+            <Label layoutX="168.0" layoutY="381.0" text="Water level" />
+            <Label layoutX="618.0" layoutY="381.0" text="Concentration" />
+            <RadioButton fx:id="radio_region_3" layoutX="278.0" layoutY="291.0" mnemonicParsing="false" onAction="#change_chart" text="Region 3">
+              <toggleGroup>
+                <ToggleGroup fx:id="map_area_group" />
+              </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="radio_region_1" layoutX="251.0" layoutY="136.0" mnemonicParsing="false" onAction="#change_chart" text="Region 1" toggleGroup="$map_area_group" />
+            <RadioButton fx:id="radio_region_6" layoutX="422.0" layoutY="291.0" mnemonicParsing="false" onAction="#change_chart" text="Region 6" toggleGroup="$map_area_group" />
+            <RadioButton fx:id="radio_region_2" layoutX="388.0" layoutY="136.0" mnemonicParsing="false" onAction="#change_chart" text="Region 2" toggleGroup="$map_area_group" />
+            <RadioButton fx:id="radio_region_8" layoutX="693.0" layoutY="300.0" mnemonicParsing="false" onAction="#change_chart" text="Region 8" toggleGroup="$map_area_group" />
+            <RadioButton fx:id="radio_region_4" layoutX="557.0" layoutY="128.0" mnemonicParsing="false" onAction="#change_chart" text="Region 4" toggleGroup="$map_area_group" />
+            <RadioButton fx:id="radio_region_7" layoutX="693.0" layoutY="136.0" mnemonicParsing="false" onAction="#change_chart" text="Region 7" toggleGroup="$map_area_group" />
+            <RadioButton fx:id="radio_region_5" layoutX="557.0" layoutY="283.0" mnemonicParsing="false" onAction="#change_chart" text="Region 5" toggleGroup="$map_area_group" />
+            <BarChart fx:id="concentration_chart" layoutX="430.0" layoutY="398.0" prefHeight="245.0" prefWidth="422.0">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </BarChart>
+          </children>
+        </Pane>
+        <Pane fx:id="drone_pane" layoutX="228.0" layoutY="5.0" prefHeight="644.0" prefWidth="860.0" visible="false">
+          <children>
+            <Pane fx:id="drone_fly_zone" layoutX="14.0" layoutY="14.0" prefHeight="320.0" prefWidth="839.0" style="-fx-border-color: lightgray;">
+              <children>
+                <ImageView fitHeight="326.0" fitWidth="839.0" pickOnBounds="true">
+                  <image>
+                    <Image url="@mapa.PNG" />
+                  </image>
+                </ImageView>
+                <RadioButton fx:id="Drone1" layoutX="223.0" layoutY="59.0" mnemonicParsing="false" text="Drone 1" visible="false" />
+                <RadioButton fx:id="Drone2" layoutX="499.0" layoutY="68.0" mnemonicParsing="false" text="Drone 2" visible="false" />
+                <RadioButton fx:id="Drone3" layoutX="335.0" layoutY="192.0" mnemonicParsing="false" text="Drone 3" visible="false" />
+              </children>
             </Pane>
-            <Pane fx:id="login_pane" layoutX="485.0" layoutY="189.0" prefHeight="200.0" prefWidth="246.0" visible="false">
-               <children>
-                  <TextField fx:id="email_field" layoutX="49.0" layoutY="56.0" promptText="Email" />
-                  <Button fx:id="send_credentials" layoutX="49.0" layoutY="120.0" mnemonicParsing="false" onAction="#SendCredentials" prefHeight="25.0" prefWidth="149.0" text="Login" />
-                  <PasswordField fx:id="password_field" layoutX="49.0" layoutY="87.0" promptText="Password" />
-                  <Label fx:id="error_login" layoutX="49.0" layoutY="30.0" prefHeight="17.0" prefWidth="149.0" text="Label" textFill="#ff0202" visible="false" />
-               </children>
+            <ComboBox fx:id="drone_selection" layoutX="14.0" layoutY="374.0" onAction="#change_drone" prefWidth="150.0" promptText="Show which drone" />
+            <MediaView fx:id="drone_video" fitHeight="200.0" fitWidth="300.0" layoutX="14.0" layoutY="420.0" />
+            <Label layoutX="435.0" layoutY="427.0" text="Field status:">
+              <font>
+                <Font size="17.0" fx:id="x2" />
+              </font>
+            </Label>
+            <Label font="$x2" layoutX="437.0" layoutY="470.0" text="Pests:" />
+            <Label font="$x2" layoutX="437.0" layoutY="507.0" text="Weeds: " />
+            <Label font="$x2" layoutX="434.0" layoutY="550.0" text="Frostbite" />
+            <Label fx:id="field_status" font="$x2" layoutX="541.0" layoutY="429.0" />
+            <Label fx:id="pests" font="$x2" layoutX="543.0" layoutY="472.0" />
+            <Label fx:id="weeds" font="$x2" layoutX="543.0" layoutY="509.0" />
+            <Label fx:id="frostbite" font="$x2" layoutX="540.0" layoutY="552.0" />
+          </children>
+        </Pane>
+        <Pane fx:id="sprinklers_pane" layoutX="228.0" layoutY="6.0" prefHeight="644.0" prefWidth="866.0" visible="false">
+          <children>
+            <Pane layoutX="12.0" layoutY="7.0" prefHeight="320.0" prefWidth="839.0" style="-fx-border-color: lightgray;">
+              <children>
+                <ImageView fitHeight="326.0" fitWidth="839.0" pickOnBounds="true">
+                  <image>
+                    <Image url="@mapa.PNG" />
+                  </image>
+                </ImageView>
+                <RadioButton fx:id="Sprinkler1" layoutX="223.0" layoutY="59.0" mnemonicParsing="false" onAction="#change_sprinkler" selected="true" text="Sprinkler 1">
+                  <toggleGroup>
+                    <ToggleGroup fx:id="Sprinklers" />
+                  </toggleGroup>
+                </RadioButton>
+                <RadioButton fx:id="Sprinkler2" layoutX="499.0" layoutY="68.0" mnemonicParsing="false" onAction="#change_sprinkler" text="Sprinkler 2" toggleGroup="$Sprinklers" />
+                <RadioButton fx:id="Sprinkler3" layoutX="335.0" layoutY="192.0" mnemonicParsing="false" onAction="#change_sprinkler" text="Sprinkler 3" toggleGroup="$Sprinklers" />
+              </children>
             </Pane>
-            <Pane fx:id="home_pane" layoutX="228.0" layoutY="6.0" prefHeight="644.0" prefWidth="860.0" visible="false">
-               <children>
-                  <ImageView fitHeight="361.0" fitWidth="839.0" layoutX="7.0" layoutY="7.0" pickOnBounds="true" smooth="false">
-                     <image>
-                        <Image url="@mapa.PNG" />
-                     </image>
-                  </ImageView>
-                  <LineChart fx:id="water_level_chart" layoutY="389.0" prefHeight="253.0" prefWidth="422.0">
-                    <xAxis>
-                      <CategoryAxis side="BOTTOM" />
-                    </xAxis>
-                    <yAxis>
-                      <NumberAxis side="LEFT" />
-                    </yAxis>
-                  </LineChart>
-                  <Label layoutX="168.0" layoutY="381.0" text="Water level" />
-                  <Label layoutX="618.0" layoutY="381.0" text="Concentration" />
-                  <RadioButton fx:id="radio_region_3" layoutX="278.0" layoutY="291.0" mnemonicParsing="false" onAction="#change_chart" text="Region 3">
-                     <toggleGroup>
-                        <ToggleGroup fx:id="map_area_group" />
-                     </toggleGroup>
-                  </RadioButton>
-                  <RadioButton fx:id="radio_region_1" layoutX="251.0" layoutY="136.0" mnemonicParsing="false" onAction="#change_chart" text="Region 1" toggleGroup="$map_area_group" />
-                  <RadioButton fx:id="radio_region_6" layoutX="422.0" layoutY="291.0" mnemonicParsing="false" onAction="#change_chart" text="Region 6" toggleGroup="$map_area_group" />
-                  <RadioButton fx:id="radio_region_2" layoutX="388.0" layoutY="136.0" mnemonicParsing="false" onAction="#change_chart" text="Region 2" toggleGroup="$map_area_group" />
-                  <RadioButton fx:id="radio_region_8" layoutX="693.0" layoutY="300.0" mnemonicParsing="false" onAction="#change_chart" text="Region 8" toggleGroup="$map_area_group" />
-                  <RadioButton fx:id="radio_region_4" layoutX="557.0" layoutY="128.0" mnemonicParsing="false" onAction="#change_chart" text="Region 4" toggleGroup="$map_area_group" />
-                  <RadioButton fx:id="radio_region_7" layoutX="693.0" layoutY="136.0" mnemonicParsing="false" onAction="#change_chart" text="Region 7" toggleGroup="$map_area_group" />
-                  <RadioButton fx:id="radio_region_5" layoutX="557.0" layoutY="283.0" mnemonicParsing="false" onAction="#change_chart" text="Region 5" toggleGroup="$map_area_group" />
-                  <BarChart fx:id="concentration_chart" layoutX="430.0" layoutY="398.0" prefHeight="245.0" prefWidth="422.0">
-                    <xAxis>
-                      <CategoryAxis side="BOTTOM" />
-                    </xAxis>
-                    <yAxis>
-                      <NumberAxis side="LEFT" />
-                    </yAxis>
-                  </BarChart>
-               </children>
-            </Pane>
-            <Pane fx:id="drone_pane" layoutX="228.0" layoutY="5.0" prefHeight="644.0" prefWidth="860.0" visible="false">
-               <children>
-                  <Pane fx:id="drone_fly_zone" layoutX="14.0" layoutY="14.0" prefHeight="320.0" prefWidth="839.0" style="-fx-border-color: lightgray;">
-                     <children>
-                        <ImageView fitHeight="326.0" fitWidth="839.0" pickOnBounds="true">
-                           <image>
-                              <Image url="@mapa.PNG" />
-                           </image>
-                        </ImageView>
-                        <RadioButton fx:id="Drone1" layoutX="223.0" layoutY="59.0" mnemonicParsing="false" text="Drone 1" visible="false" />
-                        <RadioButton fx:id="Drone2" layoutX="499.0" layoutY="68.0" mnemonicParsing="false" text="Drone 2" visible="false" />
-                        <RadioButton fx:id="Drone3" layoutX="335.0" layoutY="192.0" mnemonicParsing="false" text="Drone 3" visible="false" />
-                     </children>
-                  </Pane>
-                  <ComboBox fx:id="drone_selection" layoutX="14.0" layoutY="374.0" onAction="#change_drone" prefWidth="150.0" promptText="Show which drone" />
-                  <MediaView fx:id="drone_video" fitHeight="200.0" fitWidth="300.0" layoutX="14.0" layoutY="420.0" />
-                  <Label layoutX="435.0" layoutY="427.0" text="Field status:">
-                     <font>
-                        <Font size="17.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="437.0" layoutY="470.0" text="Pests:">
-                     <font>
-                        <Font size="17.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="437.0" layoutY="507.0" text="Weeds: ">
-                     <font>
-                        <Font size="17.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="434.0" layoutY="550.0" text="Frostbite">
-                     <font>
-                        <Font size="17.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="field_status" layoutX="541.0" layoutY="429.0">
-                     <font>
-                        <Font size="17.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="pests" layoutX="543.0" layoutY="472.0">
-                     <font>
-                        <Font size="17.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="weeds" layoutX="543.0" layoutY="509.0">
-                     <font>
-                        <Font size="17.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="frostbite" layoutX="540.0" layoutY="552.0">
-                     <font>
-                        <Font size="17.0" />
-                     </font>
-                  </Label>
-               </children>
-            </Pane>
-            <Pane fx:id="sprinklers_pane" layoutX="228.0" layoutY="6.0" prefHeight="644.0" prefWidth="866.0">
-               <children>
-                  <Pane layoutX="12.0" layoutY="7.0" prefHeight="320.0" prefWidth="839.0" style="-fx-border-color: lightgray;">
-                     <children>
-                        <ImageView fitHeight="326.0" fitWidth="839.0" pickOnBounds="true">
-                           <image>
-                              <Image url="@mapa.PNG" />
-                           </image>
-                        </ImageView>
-                        <RadioButton fx:id="Sprinkler1" layoutX="223.0" layoutY="59.0" mnemonicParsing="false" onAction="#change_sprinkler" selected="true" text="Sprinkler 1">
-                           <toggleGroup>
-                              <ToggleGroup fx:id="Sprinklers" />
-                           </toggleGroup>
-                        </RadioButton>
-                        <RadioButton fx:id="Sprinkler2" layoutX="499.0" layoutY="68.0" mnemonicParsing="false" onAction="#change_sprinkler" text="Sprinkler 2" toggleGroup="$Sprinklers" />
-                        <RadioButton fx:id="Sprinkler3" layoutX="335.0" layoutY="192.0" mnemonicParsing="false" onAction="#change_sprinkler" text="Sprinkler 3" toggleGroup="$Sprinklers" />
-                     </children>
-                  </Pane>
-                  <Slider fx:id="sprinkler_slider" layoutX="89.0" layoutY="336.0" orientation="VERTICAL" prefHeight="215.0" prefWidth="14.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
-                  <Label layoutX="11.0" layoutY="558.0" text="Sprinkler strength">
-                     <font>
-                        <Font size="21.0" />
-                     </font>
-                  </Label>
-                  <LineChart fx:id="sprinkler_hidration" layoutX="180.0" layoutY="338.0" prefHeight="301.0" prefWidth="524.0">
-                    <xAxis>
-                      <CategoryAxis side="BOTTOM" />
-                    </xAxis>
-                    <yAxis>
-                      <NumberAxis side="LEFT" />
-                    </yAxis>
-                  </LineChart>
-                  <CheckBox fx:id="automatic_irrigation_check" layoutX="9.0" layoutY="597.0" mnemonicParsing="false" text="Automatic irrigation system" />
-                  <Label layoutX="724.0" layoutY="351.0" text="Configuration type:" />
-                  <Label fx:id="config_type" layoutX="724.0" layoutY="372.0" text="Carrots" textFill="#9a1d1d" />
-                  <Label layoutX="724.0" layoutY="416.0" text="Status:" />
-                  <Label fx:id="irrigation_status" layoutX="727.0" layoutY="439.0" />
-               </children>
-            </Pane>
+            <Slider fx:id="sprinkler_slider" layoutX="89.0" layoutY="336.0" orientation="VERTICAL" prefHeight="215.0" prefWidth="14.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
+            <Label layoutX="11.0" layoutY="558.0" text="Sprinkler strength">
+              <font>
+                <Font size="21.0" />
+              </font>
+            </Label>
+            <LineChart fx:id="sprinkler_hidration" layoutX="180.0" layoutY="338.0" prefHeight="301.0" prefWidth="524.0">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </LineChart>
+            <CheckBox fx:id="automatic_irrigation_check" layoutX="9.0" layoutY="597.0" mnemonicParsing="false" text="Automatic irrigation system" />
+            <Label layoutX="724.0" layoutY="351.0" text="Configuration type:" />
+            <Label fx:id="config_type" layoutX="724.0" layoutY="372.0" text="Carrots" textFill="#9a1d1d" />
+            <Label layoutX="724.0" layoutY="416.0" text="Status:" />
+            <Label fx:id="irrigation_status" layoutX="727.0" layoutY="439.0" />
+          </children>
+        </Pane>
+        <Pane fx:id="user_add_pane" layoutX="228.0" layoutY="8.0" prefHeight="642.0" prefWidth="864.0">
+          <children>
+            <TextField fx:id="user_add_email" layoutX="325.0" layoutY="288.0" prefWidth="200.0" promptText="Email" />
+            <TextField id="name_" fx:id="user_add_name" layoutX="325.0" layoutY="258.0" prefWidth="200.0" promptText="Name" />
+            <PasswordField fx:id="user_add_password" layoutX="325.0" layoutY="318.0" prefWidth="200.0" promptText="Password" />
+            <Button fx:id="user_add_button" layoutX="398.0" layoutY="358.0" mnemonicParsing="false" onAction="#AddUser" text="Add user" />
+          </children>
+        </Pane>
       </children>
     </AnchorPane>
   </children>

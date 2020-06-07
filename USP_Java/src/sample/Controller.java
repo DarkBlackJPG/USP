@@ -62,6 +62,11 @@ public class Controller {
     public CheckBox automatic_irrigation_check;
     public Label config_type;
     public Label irrigation_status;
+    public Pane user_add_pane;
+    public TextField user_add_email;
+    public TextField user_add_name;
+    public PasswordField user_add_password;
+    public Button user_add_button;
 
     @FXML
     private TextField email_field;
@@ -80,6 +85,7 @@ public class Controller {
         home_pane.setVisible(false);
         menu_pane.setVisible(false);
         drone_pane.setVisible(false);
+        user_add_pane.setVisible(false);
         login_pane.setVisible(true);
         sprinklers_pane.setVisible(false);
         runner = new Thread(){
@@ -173,6 +179,7 @@ public class Controller {
                 error_login.setVisible(false);
                 error_login.setText("Incorrect credentials");
                 home_pane.setVisible(true);
+                user_add_pane.setVisible(false);
                 menu_pane.setVisible(true);
                 drone_pane.setVisible(false);
                 login_pane.setVisible(false);
@@ -212,6 +219,7 @@ public class Controller {
 
     public void load_home(ActionEvent actionEvent) {
         home_pane.setVisible(true);
+        user_add_pane.setVisible(false);
         menu_pane.setVisible(true);
         drone_pane.setVisible(false);
         login_pane.setVisible(false);
@@ -230,6 +238,7 @@ public class Controller {
         home_pane.setVisible(false);
         menu_pane.setVisible(true);
         drone_pane.setVisible(true);
+        user_add_pane.setVisible(false);
         login_pane.setVisible(false);
         sprinklers_pane.setVisible(false);
 
@@ -240,6 +249,7 @@ public class Controller {
         menu_pane.setVisible(true);
         drone_pane.setVisible(false);
         login_pane.setVisible(false);
+        user_add_pane.setVisible(false);
         sprinklers_pane.setVisible(true);
     }
 
@@ -384,7 +394,39 @@ public class Controller {
         home_pane.setVisible(false);
         menu_pane.setVisible(false);
         drone_pane.setVisible(false);
+        user_add_pane.setVisible(false);
         login_pane.setVisible(true);
         sprinklers_pane.setVisible(false);
+    }
+
+    public void AddUserMethod(ActionEvent actionEvent) {
+        home_pane.setVisible(false);
+        menu_pane.setVisible(true);
+        drone_pane.setVisible(false);
+        user_add_pane.setVisible(true);
+        login_pane.setVisible(false);
+        sprinklers_pane.setVisible(false);
+    }
+
+    public void AddUser(ActionEvent actionEvent) {
+        FileWriter myWriter = null;
+        try {
+
+            String user = user_add_name.getText();
+            String email = user_add_email.getText();
+            String password = user_add_password.getText();
+            if (user.equalsIgnoreCase("") || email.equalsIgnoreCase("") || password.equalsIgnoreCase("")) {
+                return;
+            }
+            myWriter = new FileWriter("localUsers.txt", true);
+            BufferedWriter br = new BufferedWriter(myWriter);
+            PrintWriter printWriter = new PrintWriter(new BufferedWriter(br));
+            printWriter.println("{ 'user' : '"+user+"', 'email' : '"+email+"', 'password' : '" + password+ "' },");
+            printWriter.close();
+            myWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }

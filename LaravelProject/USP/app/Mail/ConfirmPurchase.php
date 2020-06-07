@@ -31,6 +31,6 @@ class ConfirmPurchase extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.ConfirmPurchase')->with(['product' => $this->product, 'user' => $this->user]);
+        return $this->markdown('emails.ConfirmPurchase')->with(['products' => $this->product, 'user' => $this->user]);
     }
 }

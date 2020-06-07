@@ -1,12 +1,12 @@
 @component('mail::message')
 # Successful purchase!
 
-You have successfully purchased {{$product->name}}.
-
 ----
 # Reciept
-
-The price is {{$product->price}}.
+@foreach($products as $product)
+Price for product {{$product->name}} is {{$product->price}}.
+----
+@endforeach
 ----
 Thanks,<br>
 {{ config('app.name') }}

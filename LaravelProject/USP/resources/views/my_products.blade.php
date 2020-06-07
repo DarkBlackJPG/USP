@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
 
             @foreach($products as $product)
-                <div class="card m-1 shadow" style="max-width: 18rem;">
+                <div class="card bg-info m-1 shadow" style="max-width: 18rem;">
                     <img class="card-img-top img-fluid" style="max-height: 250px !important;" src="{{asset("img/$product->image")}}" alt="Card image cap">
                     <hr>
                     <div class="card-body">
