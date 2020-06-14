@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
+use Session;
 
 class LoginController extends Controller
 {
@@ -36,5 +38,17 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    public function logout() {
+//        dd($this);
+        if(!is_null(auth()->user()->cart()->get())){
+            app('App\Http\Controllers\UserController')->cancelCart(Auth::id());
+        }
+
+        Session::flush();
+        Auth::logout();
+        return redirect()->route('welcome')
+            ->with('success_logout', 'null');
     }
 }

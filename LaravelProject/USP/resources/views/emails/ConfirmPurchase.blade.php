@@ -1,13 +1,15 @@
 @component('mail::message')
-# Successful purchase!
+# Successful purchase!<br><br>
 
-----
-# Reciept
+----<br>
+# Reciept<br><br>
 @foreach($products as $product)
-Price for product {{$product->name}} is {{$product->price}}.
-----
+Price for product {{$product->name}} is {{$product->price}}. Amount ordered is {{$product->pivot->amount}}.
+---- <br><br>
 @endforeach
-----
-Thanks,<br>
+<br>
+----<br>
+Thank you for your purchase!<br> <br>
+Sincerely,<br>
 {{ config('app.name') }}
 @endcomponent

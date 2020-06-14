@@ -7,7 +7,10 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>SHM-AUTO</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="{{asset('img/logo_white.png')}}" type="image/gif" sizes="16x16">
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -18,14 +21,16 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    @yield('head')
 </head>
 <body class="bg-dark">
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-warning shadow-sm">
+            <a class="navbar-brand font-weight-bolder" style="font-size: x-large; text-decoration: underline;" href="{{ url('/home') }}">
+                {{ __('SHM-AUTO') }}
+            </a>
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/home') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -45,7 +50,7 @@
                             </li>
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Registruj se') }}</a>
                                 </li>
                             @endif
                         @else
@@ -78,9 +83,15 @@
             </div>
         </nav>
 
+
         <main class="py-4">
             @yield('content')
         </main>
     </div>
+<footer style="position: fixed; bottom: 2px; right: 4px;">
+    <a href="{{ url('/home') }}">
+        <img src="/img/logo.png" alt="SHM-AUTO_logo" class="float-right img-fluid">
+    </a>
+</footer>
 </body>
 </html>

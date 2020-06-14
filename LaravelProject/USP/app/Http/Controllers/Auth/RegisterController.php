@@ -49,18 +49,33 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
+        $rules = [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+            'password' => ['required', 'string', 'min:6', 'confirmed'],
+        ];
+        $messages = [
+            'name.required'=>'Ovo polje je obavezno',
+            'name.string'=>'Polje mora biti niz karaktera',
+            'name.max'=>'Korisničko ime mora da bude manje od :max karaktera',
+            'email.required' => 'Ovo polje je obavezno',
+            'email.string' => 'Polje mora biti niz karaktera',
+            'email.email' => 'E-mail nije pravilne forme',
+            'email.max' => 'E-mail ne sme biti duži od :max karaktera',
+            'email.unique' => 'E-mail već postoji',
+            'password.required' => 'Ovo polje je obavezno',
+            'password.string' => 'Polje mora biti niz karaktera',
+            'password.min' => 'Lozinka ne može biti manja od :min karaktera',
+            'password.confirmed' => 'Lozinke moraju biti iste',
+        ];
+        return Validator::make($data, $rules, $messages);
     }
 
     /**
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \App\User
+     * @return User
      */
     protected function create(array $data)
     {
